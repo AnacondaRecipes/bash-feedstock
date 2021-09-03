@@ -36,6 +36,7 @@ build:
   number: 0
   script: |
     set -ex
+    cp -r ${BUILD_PREFIX}/share/libtool/build-aux/config.* ./support
     ./configure --prefix=$PREFIX --with-installed-readline=$PREFIX --with-curses
     make
     make tests
@@ -47,6 +48,7 @@ requirements:
     - {{ compiler('c') }}
     - make
     - bison
+    - libtool
   host:
     - readline
   run:
