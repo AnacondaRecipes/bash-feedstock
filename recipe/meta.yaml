@@ -49,6 +49,8 @@ requirements:
     - make
     - bison
     - libtool
+    - patch     # [not win]
+    - m2-patch  # [win]
   host:
     - readline
   run:
