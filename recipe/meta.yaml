@@ -1,7 +1,5 @@
 {% set name = "bash" %}
-{% set version = "5.0.018" %}
-{% set _patch_level = version.split(".")[2]|int %}
-{% set base_version = version.split(".")[0]+"."+version.split(".")[1] %}
+{% set version = "5.3" %}
 
 ### From ArchLinux, better than nothing (less good than .sigs, see later)
 
@@ -10,27 +8,12 @@ package:
   version: {{ version }}
 
 source:
-  - url: http://ftp.gnu.org/gnu/{{ name }}/{{ name }}-{{ base_version }}.tar.gz
-    sha256: b4a80f2ac66170b2913efbfb9f2594f1f76c7b1afd11f799e22035d63077fb4d
+  - url: https://ftp.gnu.org/gnu/{{ name }}/{{ name }}-{{ version }}.tar.gz
+    sha256: 0d5cd86965f869a26cf64f4b71be7b96f90a3ba8b3d74e27e8e9d9d5550f31ba
     patches:
-      - gnu-patches/bash50-001
-      - gnu-patches/bash50-002
-      - gnu-patches/bash50-003
-      - gnu-patches/bash50-004
-      - gnu-patches/bash50-005
-      - gnu-patches/bash50-006
-      - gnu-patches/bash50-007
-      - gnu-patches/bash50-008
-      - gnu-patches/bash50-009
-      - gnu-patches/bash50-010
-      - gnu-patches/bash50-011
-      - gnu-patches/bash50-012
-      - gnu-patches/bash50-013
-      - gnu-patches/bash50-014
-      - gnu-patches/bash50-015
-      - gnu-patches/bash50-016
-      - gnu-patches/bash50-017
-      - gnu-patches/bash50-018
+      - gnu-patches/bash53-001
+      - gnu-patches/bash53-002
+      - gnu-patches/bash53-003
 
 build:
   number: 0
@@ -45,12 +28,11 @@ build:
 
 requirements:
   build:
+    - {{ stdlib('c') }}
     - {{ compiler('c') }}
     - make
     - bison
     - libtool
-    - patch     # [not win]
-    - m2-patch  # [win]
   host:
     - readline
   run:
@@ -60,11 +42,12 @@ test:
   requires:
     - ripgrep
   commands:
-    - bash --version | rg {{ base_version }}.{{ _patch_level }}
+    - bash --version | rg {{ version }}
+    - test -f $PREFIX/bin/bash
 
 about:
-  home: https://www.gnu.org/software/bash/
-  license: GPL v3
+  home: https://www.gnu.org/software/bash
+  license: GPL-3.0-or-later
   license_family: GPL
   license_file: COPYING
   summary: 'Bourne Again Shell'
@@ -76,8 +59,8 @@ about:
     It offers functional improvements over sh for both programming and
     interactive use. In addition, most sh scripts can be run by Bash
     without modification.
-  doc_url: https://www.gnu.org/software/bash/manual/
-  dev_url: https://www.gnu.org/help/
+  doc_url: https://www.gnu.org/software/bash/manual
+  dev_url: https://www.gnu.org/help
 
 extra:
   recipe-maintainers:
